@@ -1,8 +1,14 @@
 # frozen_string_literal: true
 
-require 'inkmark'
+require "inkmark"
 
 module Marcdouane
+  # Rule is the base class to regroup all rules. It is initialized
+  # with a file path and some options forwarded from the CLI
+  # invocation.
+  #
+  # Subclasses must implement `check!` and provide an
+  # ERROR_MESSAGE when the check fails.
   class Rule
     attr_reader :file, :options
 
@@ -12,6 +18,9 @@ module Marcdouane
     end
   end
 
+  # StartWithTopLevelHeader
+  #
+  # Ensure the first line, frontmatter or not, is a top-level header.
   class StartWithTopLevelHeader < Rule
     ERROR_MESSAGE = "The file should start with a top-level header."
 
