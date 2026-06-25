@@ -26,7 +26,21 @@ module Marcdouane
                  desc: "Files to check against"
 
         def call(files: [], **)
-          puts "No files provided."
+          if files.empty?
+            puts "No files provided."
+            return
+          end
+
+          files.each do |file|
+            puts "Checking `#{file}'..."
+
+            if !File.exist?(file)
+              $stderr.puts "`#{file}' is missing, or not a valid file."
+              exit 1
+            end
+
+            puts "Done."
+          end
         end
       end
 

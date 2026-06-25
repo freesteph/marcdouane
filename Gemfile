@@ -6,6 +6,8 @@ source "https://rubygems.org"
 gemspec
 
 gem "debug"
+gem "aruba"
+
 gem "irb"
 gem "rake", "~> 13.0"
 

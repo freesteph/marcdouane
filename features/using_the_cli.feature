@@ -1,8 +1,8 @@
 Feature: Using the command-line executable
   Scenario: The CLI provides a helpful banner
-    When the command "bin/marcdouane" is ran
-    Then the shell output contains "Commands:"
+    When I run `marcdouane`
+    Then the output should contain "Commands:"
 
   Scenario: The CLI can tell its version
-    When the command "bin/marcdouane version" is ran
-    Then the shell output contains "0.1.0"
+    When I run `marcdouane version`
+    Then the output should contain "0.1.0"
