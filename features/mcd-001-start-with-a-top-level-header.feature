@@ -7,5 +7,5 @@ Feature: Starts with a top-level header
     When I run `marcdouane check "foo.md"`
     Then it should fail with:
       """
-      foo.md:1: Files should start with a top-level header
+      foo.md:0: The file should start with a top-level header
       """

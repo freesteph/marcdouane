@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'inkmark'
+
 module Marcdouane
   class Rule
     attr_reader :file, :options
@@ -13,6 +15,7 @@ module Marcdouane
       check!
     rescue Marcdouane::Error => e
       $stderr.puts("#{file}:#{e.line_number}: #{e.message}")
+      exit 1
     end
   end
 
@@ -20,13 +23,12 @@ module Marcdouane
     ERROR_MESSAGE = "The file should start with a top-level header."
 
     def check!
-      File
-        .read(file)
-        .lines
-        .each_with_index do |line, index|
-        if !line.match?("foobar")
-          raise Marcdouane::Error.new(ERROR_MESSAGE, index)
-        end
+      md = Inkmark.new(File.read(file))
+
+      sections = md.chunks_by_heading
+
+      if sections.empty? || sections.first[:level] != 1
+        raise Marcdouane::Error.new(ERROR_MESSAGE, 0)
       end
     end
   end
