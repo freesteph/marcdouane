@@ -39,6 +39,53 @@ I'm doing it
 
 ## Contributing
 
+A rule must inherit `Marcdouane::Rule`. It must answer to `check!` and
+raise a `Marcdouane::Error` with an `ERROR_MESSAGE` and a line
+number. Example:
+
+```ruby
+class CheckAnglois < Marcdouane::Rule
+  ERROR_MESSAGE = "Do not mention the English"
+
+  def check!
+    File
+      .read(file)
+      .lines
+      .each_with_index(line, index) do
+      raise Marcdouane:Error.new(ERROR_MESSAGE, index + 1) if line =~ /anglois/
+    end
+  end
+end
+```
+
+It is then expected to be tested throughout the Cucumber feature tests
+like such:
+
+```feature
+Feature: MCD-EXAMPLE Don't mention the English
+  Scenario: It fails when the English are mentioned
+    Given a file named "foo.md" with:
+      """
+      # Tout va bien
+      Pas d'anglois à l'horizon
+      """
+    When I run `marcdouane check "foo.md"`
+    Then it should fail with:
+      """
+      foo.md:2: Don't mention the English
+      """
+
+  Scenario: It passes when the English are not mentioned
+    Given a file named "foo.md" with:
+      """
+      # Tout va bien
+      Quelques voix dans la tête mais tranquille
+      """
+    When I run `marcdouane check "foo.md"`
+    Then it should pass
+
+```
+
 Bug reports and pull requests are welcome on GitHub at https://github.com/freesteph/marcdouane.
 
 ## License
