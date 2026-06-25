@@ -12,7 +12,11 @@ module Marcdouane
         puts "Checking `#{file}'..." if verbose
 
         rules.each do |rule|
-          rule.new(file, options).call
+          rule.new(file, options).check!
+        rescue Marcdouane::Error => e
+          $stderr.puts("#{file}:#{e.line_number}: #{e.message}")
+
+          raise e
         end
 
         puts "Done." if verbose

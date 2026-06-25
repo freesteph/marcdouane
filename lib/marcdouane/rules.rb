@@ -10,13 +10,6 @@ module Marcdouane
       @file = file
       @options = options
     end
-
-    def call
-      check!
-    rescue Marcdouane::Error => e
-      $stderr.puts("#{file}:#{e.line_number}: #{e.message}")
-      exit 1
-    end
   end
 
   class StartWithTopLevelHeader < Rule

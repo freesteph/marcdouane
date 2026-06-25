@@ -37,14 +37,22 @@ module Marcdouane
             return
           end
 
+          exit_code = 0
+
           files.each do |file|
             if !File.exist?(file)
               $stderr.puts "`#{file}' is missing, or not a valid file."
-              exit 1
+              exit_code = 1
             else
-              Marcdouane::FileChecker.call(file, options)
+              begin
+                Marcdouane::FileChecker.call(file, options)
+              rescue Marcdouane::Error
+                exit_code = 1
+              end
             end
           end
+
+          exit(exit_code)
         end
       end
 
