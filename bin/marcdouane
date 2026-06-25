@@ -1,4 +1,25 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-puts "marcdouane is here to help"
+require "bundler/setup"
+require "dry/cli"
+
+module Marcdouane
+  module CLI
+    module Commands
+      extend Dry::CLI::Registry
+
+      class Version < Dry::CLI::Command
+        desc "Print version"
+
+        def call(*)
+          puts Marcdouane::VERSION
+        end
+      end
+
+      register "version", Version, aliases: ["v", "-v", "--version"]
+    end
+  end
+end
+
+Dry::CLI.new(Marcdouane::CLI::Commands).call

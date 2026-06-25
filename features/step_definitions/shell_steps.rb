@@ -1,10 +1,11 @@
 # frozen_string_literal: true
 
-When('the command {string} is run in a shell') do |cmd|
-  @shell_output = `#{cmd}`
+require "open3"
+
+When("the command {string} is ran") do |cmd|
+  @shell_output = Open3.capture2e(cmd).first
 end
 
-Then('the shell contains {string}') do |str|
-  puts "shell output is #{@shell_output}"
+Then("the shell output contains {string}") do |str|
   expect(@shell_output).to include str
 end
