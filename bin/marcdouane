@@ -21,12 +21,17 @@ module Marcdouane
       class Check < Dry::CLI::Command
         desc "Check the Markdown of one or more file"
 
+        option :verbose,
+               type: :boolean,
+               default: false,
+               desc: "Verbose output"
+
         argument :files,
                  type: :array,
                  required: true,
                  desc: "Files to check against"
 
-        def call(files: [], **)
+        def call(files: [], **options)
           if files.empty?
             puts "No files provided."
             return
@@ -37,7 +42,7 @@ module Marcdouane
               $stderr.puts "`#{file}' is missing, or not a valid file."
               exit 1
             else
-              Marcdouane::FileChecker.call(file)
+              Marcdouane::FileChecker.call(file, options)
             end
           end
         end
