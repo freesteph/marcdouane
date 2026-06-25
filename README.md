@@ -2,7 +2,7 @@
 
 a beautiful, epic Markdown linter
 
-<epic picture>
+![Logo](logo.jpeg)
 
 ## Installation
 
