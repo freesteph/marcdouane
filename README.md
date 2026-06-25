@@ -9,13 +9,13 @@ a beautiful, epic Markdown linter
 Install the gem and add to the application's Gemfile by executing:
 
 ```bash
-bundle add marc-douane
+bundle add marcdouane
 ```
 
 If bundler is not being used to manage dependencies, install the gem by executing:
 
 ```bash
-gem install marc-douane
+gem install marcdouane
 ```
 
 ## Usage
@@ -23,13 +23,14 @@ gem install marc-douane
 Checking a file with default rules:
 
 ```sh
-marc-douane some-file.md
+marcdouane check some-file.md
 ```
 
-For the complete set of options please observe:
+For the complete tour just use
 
 ```sh
-marc-douane --help
+marcdouane
+marcdouane check --help
 ```
 
 ## Development
@@ -38,7 +39,7 @@ I'm doing it
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/freesteph/marc-douane.
+Bug reports and pull requests are welcome on GitHub at https://github.com/freesteph/marcdouane.
 
 ## License
 
