@@ -17,7 +17,22 @@ module Marcdouane
         end
       end
 
+      class Check < Dry::CLI::Command
+        desc "Check the Markdown of one or more file"
+
+        argument :files,
+                 type: :array,
+                 required: true,
+                 desc: "Files to check against"
+
+        def call(files: [], **)
+          puts "No files provided."
+        end
+      end
+
+
       register "version", Version, aliases: ["v", "-v", "--version"]
+      register "check", Check
     end
   end
 end
