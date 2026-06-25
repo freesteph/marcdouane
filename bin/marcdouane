@@ -3,6 +3,7 @@
 
 require "bundler/setup"
 require "dry/cli"
+require "marcdouane"
 
 module Marcdouane
   module CLI
@@ -32,14 +33,12 @@ module Marcdouane
           end
 
           files.each do |file|
-            puts "Checking `#{file}'..."
-
             if !File.exist?(file)
               $stderr.puts "`#{file}' is missing, or not a valid file."
               exit 1
+            else
+              Marcdouane::FileChecker.call(file)
             end
-
-            puts "Done."
           end
         end
       end
