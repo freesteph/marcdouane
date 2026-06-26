@@ -111,6 +111,6 @@ Feature: Built-in Markdown Rules
     When I run `marcdouane check "foo.md"`
     Then it should fail with:
       """
-      foo.md:2: Header levels should increment one at a time
       foo.md:1: The file should start with a top-level header
+      foo.md:2: Header levels should increment one at a time
       """

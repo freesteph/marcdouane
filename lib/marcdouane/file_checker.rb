@@ -37,7 +37,7 @@ module Marcdouane
 
         config.each do |klass, hash|
           hash.each do |key, value|
-            rule_class = "Marcdouane::#{klass}"
+            rule_class = "Marcdouane::Rules::#{klass}"
 
             const_get(rule_class).class_eval do
               self.config[key.to_sym] = value
@@ -47,7 +47,7 @@ module Marcdouane
       end
 
       def rules
-        Marcdouane::Rule.subclasses
+        Marcdouane::Rules::Rule.subclasses
       end
     end
   end
