@@ -10,11 +10,25 @@ module Marcdouane
   # Subclasses must implement `check!` and provide an
   # ERROR_MESSAGE when the check fails.
   class Rule
-    attr_reader :file, :options
+    attr_reader :file, :options, :markdown
 
     def initialize(file, options)
       @file = file
       @options = options
+      @markdown = Inkmark.new(
+        File.read(file),
+        options: {
+          frontmatter: true
+        }
+      )
+    end
+
+    def line_number_from_byte_range(range)
+      @markdown
+        .source
+        .lines
+        .find_index { |l| l == @markdown.source[range] }
+        .succ
     end
   end
 
@@ -25,13 +39,35 @@ module Marcdouane
     ERROR_MESSAGE = "The file should start with a top-level header."
 
     def check!
-      md = Inkmark.new(File.read(file), options: { frontmatter: true })
-
-      sections = md.chunks_by_heading
+      sections = @markdown.chunks_by_heading
 
       if sections.empty? || sections.first[:level] != 1
         raise Marcdouane::Error.new(ERROR_MESSAGE, 0)
       end
+    end
+  end
+
+  # EnsureHeadersCascade
+  #
+  # Ensure that every child header is always a direct descendant of
+  # the previous header (i.e its level increments by 1).
+  class EnsureHeadersCascade < Rule
+    ERROR_MESSAGE = "Header levels should increment one at a time"
+
+    def check!
+      previous_level = nil
+
+      @markdown.on(:heading) do |header|
+        previous_level ||= header.level
+
+        if header.level > previous_level && header.level != previous_level + 1
+          raise Marcdouane::Error.new(ERROR_MESSAGE, line_number_from_byte_range(header.byte_range))
+        else
+          previous_level = header.level
+        end
+      end
+
+      @markdown.walk
     end
   end
 end
