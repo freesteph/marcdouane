@@ -25,7 +25,7 @@ module Marcdouane
     ERROR_MESSAGE = "The file should start with a top-level header."
 
     def check!
-      md = Inkmark.new(File.read(file))
+      md = Inkmark.new(File.read(file), options: { frontmatter: true })
 
       sections = md.chunks_by_heading
 

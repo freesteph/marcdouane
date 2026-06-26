@@ -54,7 +54,7 @@ GEM
     erb (6.0.4)
     ffi (1.17.4)
     ffi (1.17.4-arm64-darwin)
-    inkmark (0.1.3-arm64-darwin)
+    inkmark (0.1.4-arm64-darwin)
     io-console (0.8.2)
     irb (1.18.0)
       pp (>= 0.6.0)
@@ -163,7 +163,7 @@ CHECKSUMS
   erb (6.0.4) sha256=38e3803694be357fe2bfe312487c74beaf9fb4e5beb3e22498952fe1645b95d9
   ffi (1.17.4) sha256=bcd1642e06f0d16fc9e09ac6d49c3a7298b9789bcb58127302f934e437d60acf
   ffi (1.17.4-arm64-darwin) sha256=19071aaf1419251b0a46852abf960e77330a3b334d13a4ab51d58b31a937001b
-  inkmark (0.1.3-arm64-darwin) sha256=03cf2483702e18aaf445fd0cc010b82272012bedfe93f2fb3e0995c990eefc06
+  inkmark (0.1.4-arm64-darwin) sha256=ad80942313bf0756eb6e00c3c96d727e2ef6505ce865245c7dd6d28f244ecc16
   io-console (0.8.2) sha256=d6e3ae7a7cc7574f4b8893b4fca2162e57a825b223a177b7afa236c5ef9814cc
   irb (1.18.0) sha256=de9454a0703a54704b9811a5ef31a60c86949fbf4013fcf244fabc7c775248e3
   json (2.20.0) sha256=9362bc6e55a952b056abf9167cf053358181c904cb70cd6eee0808ea830fc32b
