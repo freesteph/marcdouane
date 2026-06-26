@@ -87,6 +87,21 @@ Feature: Built-in Markdown Rules
       When I run `marcdouane check --config .marcdouane.yml "foo.md"`
       Then it should pass
 
+  Rule: No consecutive blank lines
+    Example: When there are two consecutive blank lines
+      Given a file named "foo.md" with:
+        """
+        Some text
+
+
+        More text two lines away
+        """
+      When I run `marcdouane check "foo.md"`
+      Then it should fail with:
+        """
+        foo.md:4: Consecutive blank lines
+        """
+
   Scenario: All the errors are displayed
     Given a file named "foo.md" with:
       """
