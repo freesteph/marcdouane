@@ -79,11 +79,12 @@ Feature: Built-in Markdown Rules
         # Example file
         This line is really long and carries over the limit for a comfortable read and annoys everybody
         """
-      And a file named "config.rb" with:
+      And a file named ".marcdouane.yml" with:
         """
-        Marcdouane::LineLength.config.line_length = 400
+        LineLength:
+          maximum_line_length: 400
         """
-      When I run `marcdouane check --config config.rb "foo.md"`
+      When I run `marcdouane check --config .marcdouane.yml "foo.md"`
       Then it should pass
 
   Scenario: All the errors are displayed

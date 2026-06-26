@@ -81,15 +81,15 @@ module Marcdouane
   class LineLength < Rule
     ERROR_MESSAGE = "Line-length is over %s characters"
 
-    setting :line_length, default: 80, reader: true
+    setting :maximum_line_length, default: 80, reader: true
 
     def check!
       @markdown.source.lines.each_with_index do |line, index|
         if line.match?(/^\[.*\]: #{URI_REGEXP}$/)
           next
-        elsif line.length > self.class.line_length
+        elsif line.length > self.class.maximum_line_length
           raise Marcdouane::Error.new(
-            ERROR_MESSAGE % self.class.line_length,
+            ERROR_MESSAGE % self.class.maximum_line_length,
             index + 1
           )
         end

@@ -33,6 +33,17 @@ marcdouane
 marcdouane check --help
 ```
 
+## Configuration
+
+Some rules have settings (see `lib/marcdouane/rules.rb` for
+now). These settings can be overriden with a YAML config file that
+resembles the Rubocop config:
+
+```yaml
+LineLength:
+  maximum_line_length: 90 # which is utter madness
+```
+
 ## Development
 
 I'm doing it

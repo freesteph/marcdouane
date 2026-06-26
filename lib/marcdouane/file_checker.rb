@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 require "debug"
+require "yaml"
+
 require_relative "rules"
 
 module Marcdouane
@@ -9,15 +11,11 @@ module Marcdouane
       def call(file, options)
         verbose = options.fetch(:verbose)
 
+        parse_config!(options[:config])
+
         puts "Checking `#{file}'..." if verbose
 
         exit_code = 0
-
-        # FIXME: this is wrong on about every possible layer of the
-        # universe but It Works®
-        if options[:config]
-          eval(File.read(options[:config]))
-        end
 
         rules.each do |rule|
           rule.new(file, options).check!
@@ -30,6 +28,22 @@ module Marcdouane
         puts "Done." if verbose
 
         exit_code
+      end
+
+      def parse_config!(path)
+        return if path.nil?
+
+        config = YAML.load_file(path)
+
+        config.each do |klass, hash|
+          hash.each do |key, value|
+            rule_class = "Marcdouane::#{klass}"
+
+            const_get(rule_class).class_eval do
+              self.config[key.to_sym] = value
+            end
+          end
+        end
       end
 
       def rules
