@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
+require "uri"
 require "inkmark"
+
+URI_REGEXP = URI::RFC2396_PARSER.make_regexp
 
 module Marcdouane
   # Rule is the base class to regroup all rules. It is initialized
@@ -32,8 +35,6 @@ module Marcdouane
     end
   end
 
-  # StartWithTopLevelHeader
-  #
   # Ensure the first line, frontmatter or not, is a top-level header.
   class StartWithTopLevelHeader < Rule
     ERROR_MESSAGE = "The file should start with a top-level header."
@@ -47,8 +48,6 @@ module Marcdouane
     end
   end
 
-  # EnsureHeadersCascade
-  #
   # Ensure that every child header is always a direct descendant of
   # the previous header (i.e its level increments by 1).
   class EnsureHeadersCascade < Rule
@@ -68,6 +67,25 @@ module Marcdouane
       end
 
       @markdown.walk
+    end
+  end
+
+  # Ensure the line-length does not go over the default (80)
+  # character limit. Link references are not accounted for.
+  class LineLength < Rule
+    ERROR_MESSAGE = "Line-length is over 80 characters"
+
+    def check!
+      @markdown
+        .source
+        .lines
+        .each_with_index do |line, index|
+        if line.match?(/^\[.*\]: #{URI_REGEXP}$/)
+          next
+        elsif line.length > 80
+          raise Marcdouane::Error.new(ERROR_MESSAGE, index + 1)
+        end
+      end
     end
   end
 end

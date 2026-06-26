@@ -47,3 +47,28 @@ Feature: Built-in Markdown Rules
         """
       When I run `marcdouane check "foo.md"`
       Then it should pass
+
+  Rule: The line-length is capped at 80 characters
+    Example: A document with a long line
+      Given a file named "foo.md" with:
+        """
+        # Example file
+        This line is really long and carries over the limit for a comfortable read and annoys everybody
+        """
+      When I run `marcdouane check "foo.md"`
+      Then it should fail with:
+        """
+        foo.md:2: Line-length is over 80 characters
+        """
+
+    Example: A link anchor is not accounted for
+      Given a file named "foo.md" with:
+        """
+        # Example file
+
+        This is a reference[1] to a link.
+
+        [1]: https://github.com/freesteph/marcdouane/commit/212d702ef34a236597e7b42c09247766276b87f5
+        """
+      When I run `marcdouane check "foo.md"`
+      Then it should pass
