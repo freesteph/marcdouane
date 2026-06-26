@@ -8,12 +8,12 @@ Gem::Specification.new do |spec|
   spec.authors = ["Stéphane Maniaci"]
   spec.email = ["stephane.maniaci@gmail.com"]
 
-  spec.summary = "TODO: Write a short summary, because RubyGems requires one."
-  spec.description = "TODO: Write a longer description or delete this line."
+  spec.summary = "Marcdouane is a pretty Markdown linter"
+  spec.description = "Marcdouane lints Markdown files and can be easily extended to fit your needs."
   spec.homepage = "https://github.com/freesteph/marcdouane"
   spec.license = "MIT"
-  spec.required_ruby_version = ">= 3.2.0"
-  spec.metadata["allowed_push_host"] = "TODO: Set to your gem server 'https://example.com'"
+  spec.required_ruby_version = ">= 4.0"
+  # spec.metadata["allowed_push_host"] = "TODO: Set to your gem server 'https://example.com'"
   spec.metadata["homepage_uri"] = spec.homepage
   spec.metadata["source_code_uri"] = "https://github.com/freesteph/marcdouane"
 
@@ -29,11 +29,11 @@ Gem::Specification.new do |spec|
   spec.files = IO.popen(%w[git ls-files -z], chdir: __dir__, err: IO::NULL) do |ls|
     ls.readlines("\x0", chomp: true).reject do |f|
       (f == gemspec) ||
-        f.start_with?(*%w[bin/ Gemfile .gitignore .rspec spec/ .github/ .rubocop.yml])
+        f.start_with?(*%w[bin/ Gemfile .gitignore .rspec features/ spec/ .github/ .rubocop.yml])
     end
   end
-  spec.bindir = "exe"
-  spec.executables = spec.files.grep(%r{\Aexe/}) { |f| File.basename(f) }
+  spec.bindir = "bin"
+  spec.executables = ["marcdouane"]
   spec.require_paths = ["lib"]
 
   spec.add_dependency "dry-cli", "~> 1.4"
