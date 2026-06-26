@@ -73,6 +73,19 @@ Feature: Built-in Markdown Rules
       When I run `marcdouane check "foo.md"`
       Then it should pass
 
+    Example: The line length can be configured
+      Given a file named "foo.md" with:
+        """
+        # Example file
+        This line is really long and carries over the limit for a comfortable read and annoys everybody
+        """
+      And a file named "config.rb" with:
+        """
+        Marcdouane::LineLength.config.line_length = 400
+        """
+      When I run `marcdouane check --config config.rb "foo.md"`
+      Then it should pass
+
   Scenario: All the errors are displayed
     Given a file named "foo.md" with:
       """

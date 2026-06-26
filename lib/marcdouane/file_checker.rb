@@ -13,6 +13,12 @@ module Marcdouane
 
         exit_code = 0
 
+        # FIXME: this is wrong on about every possible layer of the
+        # universe but It Works®
+        if options[:config]
+          eval(File.read(options[:config]))
+        end
+
         rules.each do |rule|
           rule.new(file, options).check!
         rescue Marcdouane::Error => e

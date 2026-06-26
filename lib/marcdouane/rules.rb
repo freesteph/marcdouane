@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require "dry/configurable"
 require "uri"
 require "inkmark"
 
@@ -13,6 +14,8 @@ module Marcdouane
   # Subclasses must implement `check!` and provide an
   # ERROR_MESSAGE when the check fails.
   class Rule
+    extend Dry::Configurable
+
     attr_reader :file, :options, :markdown
 
     def initialize(file, options)
@@ -60,7 +63,10 @@ module Marcdouane
         previous_level ||= header.level
 
         if header.level > previous_level && header.level != previous_level + 1
-          raise Marcdouane::Error.new(ERROR_MESSAGE, line_number_from_byte_range(header.byte_range))
+          raise Marcdouane::Error.new(
+            ERROR_MESSAGE,
+            line_number_from_byte_range(header.byte_range)
+          )
         else
           previous_level = header.level
         end
@@ -73,17 +79,19 @@ module Marcdouane
   # Ensure the line-length does not go over the default (80)
   # character limit. Link references are not accounted for.
   class LineLength < Rule
-    ERROR_MESSAGE = "Line-length is over 80 characters"
+    ERROR_MESSAGE = "Line-length is over %s characters"
+
+    setting :line_length, default: 80, reader: true
 
     def check!
-      @markdown
-        .source
-        .lines
-        .each_with_index do |line, index|
+      @markdown.source.lines.each_with_index do |line, index|
         if line.match?(/^\[.*\]: #{URI_REGEXP}$/)
           next
-        elsif line.length > 80
-          raise Marcdouane::Error.new(ERROR_MESSAGE, index + 1)
+        elsif line.length > self.class.line_length
+          raise Marcdouane::Error.new(
+            ERROR_MESSAGE % self.class.line_length,
+            index + 1
+          )
         end
       end
     end

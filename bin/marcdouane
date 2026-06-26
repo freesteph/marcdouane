@@ -26,6 +26,11 @@ module Marcdouane
                default: false,
                desc: "Verbose output"
 
+        option :config,
+               type: :string,
+               required: false,
+               desc: "Configuration file"
+
         argument :files,
                  type: :array,
                  required: true,
