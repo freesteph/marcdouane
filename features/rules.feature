@@ -8,7 +8,7 @@ Feature: Built-in Markdown Rules
       When I run `marcdouane check "foo.md"`
       Then it should fail with:
         """
-        foo.md:0: The file should start with a top-level header
+        foo.md:1: The file should start with a top-level header
         """
 
     Example: Frontmatter data is not accounted for

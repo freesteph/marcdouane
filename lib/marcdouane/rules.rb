@@ -43,7 +43,7 @@ module Marcdouane
       sections = @markdown.chunks_by_heading
 
       if sections.empty? || sections.first[:level] != 1
-        raise Marcdouane::Error.new(ERROR_MESSAGE, 0)
+        raise Marcdouane::Error.new(ERROR_MESSAGE, 1)
       end
     end
   end
