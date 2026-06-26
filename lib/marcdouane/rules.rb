@@ -36,6 +36,13 @@ module Marcdouane
         .find_index { |l| l == @markdown.source[range] }
         .succ
     end
+
+    def error!(line_number, message = nil)
+      raise Marcdouane::Error.new(
+        message || self.class.const_get("ERROR_MESSAGE"),
+        line_number
+      )
+    end
   end
 
   # Ensure the first line, frontmatter or not, is a top-level header.
@@ -46,7 +53,7 @@ module Marcdouane
       sections = @markdown.chunks_by_heading
 
       if sections.empty? || sections.first[:level] != 1
-        raise Marcdouane::Error.new(ERROR_MESSAGE, 1)
+        error!(1)
       end
     end
   end
@@ -63,10 +70,7 @@ module Marcdouane
         previous_level ||= header.level
 
         if header.level > previous_level && header.level != previous_level + 1
-          raise Marcdouane::Error.new(
-            ERROR_MESSAGE,
-            line_number_from_byte_range(header.byte_range)
-          )
+          error!(line_number_from_byte_range(header.byte_range))
         else
           previous_level = header.level
         end
@@ -88,9 +92,9 @@ module Marcdouane
         if line.match?(/^\[.*\]: #{URI_REGEXP}$/)
           next
         elsif line.length > self.class.maximum_line_length
-          raise Marcdouane::Error.new(
-            ERROR_MESSAGE % self.class.maximum_line_length,
-            index + 1
+          error!(
+            index + 1,
+            ERROR_MESSAGE % self.class.maximum_line_length
           )
         end
       end
@@ -108,7 +112,7 @@ module Marcdouane
         .each_cons(2)
         .each_with_index do |pair, index|
         if pair.map(&:strip).all?(&:empty?)
-          raise Marcdouane::Error.new(ERROR_MESSAGE, index + 3)
+          error!(index + 3)
         end
       end
     end
