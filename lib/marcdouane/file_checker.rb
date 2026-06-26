@@ -11,15 +11,19 @@ module Marcdouane
 
         puts "Checking `#{file}'..." if verbose
 
+        exit_code = 0
+
         rules.each do |rule|
           rule.new(file, options).check!
         rescue Marcdouane::Error => e
           $stderr.puts("#{file}:#{e.line_number}: #{e.message}")
 
-          raise e
+          exit_code = 1
         end
 
         puts "Done." if verbose
+
+        exit_code
       end
 
       def rules

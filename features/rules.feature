@@ -72,3 +72,16 @@ Feature: Built-in Markdown Rules
         """
       When I run `marcdouane check "foo.md"`
       Then it should pass
+
+  Scenario: All the errors are displayed
+    Given a file named "foo.md" with:
+      """
+      ## This is a file starting with a level-2 header
+      #### This goes directly to H4
+      """
+    When I run `marcdouane check "foo.md"`
+    Then it should fail with:
+      """
+      foo.md:2: Header levels should increment one at a time
+      foo.md:1: The file should start with a top-level header
+      """

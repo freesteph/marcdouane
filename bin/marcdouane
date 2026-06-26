@@ -44,11 +44,7 @@ module Marcdouane
               $stderr.puts "`#{file}' is missing, or not a valid file."
               exit_code = 1
             else
-              begin
-                Marcdouane::FileChecker.call(file, options)
-              rescue Marcdouane::Error
-                exit_code = 1
-              end
+              exit_code = Marcdouane::FileChecker.call(file, options)
             end
           end
 
