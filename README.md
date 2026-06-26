@@ -62,32 +62,37 @@ It is then expected to be tested throughout the Cucumber feature tests
 like such:
 
 ```feature
-Feature: MCD-EXAMPLE Don't mention the English
-  Scenario: It fails when the English are mentioned
-    Given a file named "foo.md" with:
-      """
-      # Tout va bien
-      Pas d'anglois à l'horizon
-      """
-    When I run `marcdouane check "foo.md"`
-    Then it should fail with:
-      """
-      foo.md:2: Don't mention the English
-      """
+Feature: Built-in Markdown Rules
+  # [...]
 
-  Scenario: It passes when the English are not mentioned
-    Given a file named "foo.md" with:
-      """
-      # Tout va bien
-      Quelques voix dans la tête mais tranquille
-      """
-    When I run `marcdouane check "foo.md"`
-    Then it should pass
+  Rule: Don't mention the English
+    Example: It fails when the English are mentioned
+      Given a file named "foo.md" with:
+        """
+        # Tout va bien
+        Pas d'anglois à l'horizon
+        """
+      When I run `marcdouane check "foo.md"`
+      Then it should fail with:
+        """
+        foo.md:2: Don't mention the English
+        """
+
+    Example: It passes when the English are not mentioned
+      Given a file named "foo.md" with:
+        """
+        # Tout va bien
+        Quelques voix dans la tête mais tranquille
+        """
+      When I run `marcdouane check "foo.md"`
+      Then it should pass
 
 ```
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/freesteph/marcdouane.
+Bug reports and pull requests are welcome on GitHub at
+https://github.com/freesteph/marcdouane.
 
 ## License
 
-The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
+The gem is available as open source under the terms of the [MIT
+License](https://opensource.org/licenses/MIT).
