@@ -8,7 +8,7 @@ Feature: Built-in Markdown Rules
       When I run `marcdouane check "foo.md"`
       Then it should fail with:
         """
-        foo.md:1: The file should start with a top-level header
+        foo.md:1: [StartWithTopLevelHeader] The file should start with a top-level header
         """
 
     Example: Frontmatter data is not accounted for
@@ -34,7 +34,7 @@ Feature: Built-in Markdown Rules
       When I run `marcdouane check "foo.md"`
       Then it should fail with:
         """
-        foo.md:3: Header levels should increment one at a time
+        foo.md:3: [EnsureHeadersCascade] Header levels should increment one at a time
         """
 
     Example: A document respect the header hiearchy
@@ -58,7 +58,7 @@ Feature: Built-in Markdown Rules
       When I run `marcdouane check "foo.md"`
       Then it should fail with:
         """
-        foo.md:2: Line-length is over 80 characters
+        foo.md:2: [LineLength] Line-length is over 80 characters
         """
 
     Example: A link anchor is not accounted for
@@ -99,7 +99,9 @@ Feature: Built-in Markdown Rules
       When I run `marcdouane check "foo.md"`
       Then it should fail with:
         """
-        foo.md:4: Consecutive blank lines
+        foo.md:4: [NoConsecutiveBlankLines] Consecutive blank lines
+        """
+
         """
 
   Scenario: All the errors are displayed

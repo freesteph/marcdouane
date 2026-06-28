@@ -35,9 +35,15 @@ module Marcdouane
           .succ
       end
 
+      def identifier
+        self.class.to_s.split("::").last
+      end
+
       def error!(line_number, message = nil)
+        msg = message || self.class.const_get("ERROR_MESSAGE")
+
         raise Marcdouane::Error.new(
-          message || self.class.const_get("ERROR_MESSAGE"),
+          "[#{identifier}] #{msg}",
           line_number
         )
       end
