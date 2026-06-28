@@ -11,7 +11,7 @@ module Marcdouane
         sections = @markdown.chunks_by_heading
 
         if sections.empty? || sections.first[:level] != 1
-          error!(1)
+          error!(0)
         end
       end
     end

@@ -13,7 +13,7 @@ module Marcdouane
           .each_cons(2)
           .each_with_index do |pair, index|
           if pair.map(&:strip).all?(&:empty?)
-            error!(index + 3)
+            error!(index + 2)
           end
         end
       end

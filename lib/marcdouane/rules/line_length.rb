@@ -19,7 +19,7 @@ module Marcdouane
             next
           elsif line.length > self.class.maximum_line_length
             error!(
-              index + 1,
+              index,
               ERROR_MESSAGE % self.class.maximum_line_length
             )
           end

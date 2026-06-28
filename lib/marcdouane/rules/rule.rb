@@ -28,23 +28,23 @@ module Marcdouane
       end
 
       def line_number_from_byte_range(range)
-        @markdown
-          .source
-          .lines
-          .find_index { |l| l == @markdown.source[range] }
-          .succ
+        File.binread(file, range.first).count("\n")
       end
 
       def identifier
         self.class.to_s.split("::").last
       end
 
-      def error!(line_number, message = nil)
+      # Produces an error that will be collected and output by the
+      # CLI. It must be called with the 0-indexed line-number, and an
+      # optional `message` override instead of the class's
+      # ERROR_MESSAGE.
+      def error!(machine_line_number, message = nil)
         msg = message || self.class.const_get("ERROR_MESSAGE")
 
         raise Marcdouane::Error.new(
           "[#{identifier}] #{msg}",
-          line_number
+          machine_line_number + 1
         )
       end
     end
