@@ -102,4 +102,19 @@ Feature: Built-in Markdown Rules
         foo.md:4: [NoConsecutiveBlankLines] Consecutive blank lines
         """
 
+
+  Rule: Consistent header style
+    Example: When the header style are not consistent
+      Given a file named "foo.md" with:
+        """
+        # Header number one
+
+        Another header
+        ==
+
+        """
+      When I run `marcdouane check "foo.md"`
+      Then it should fail with:
+        """
+        foo.md:3: [ConsistentHeaderStyle] Use a unique, consistent header style
         """
