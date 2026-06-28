@@ -17,17 +17,38 @@ module Marcdouane
 
         exit_code = 0
 
-        rules.each do |rule|
-          rule.new(file, options).check!
-        rescue Marcdouane::Error => e
-          $stderr.puts("#{file}:#{e.line_number}: #{e.message}")
+        rules.each do |klass|
+          rule = klass.new(file, options)
 
-          exit_code = 1
+          rule.subscribe("rule.error") do |event|
+            exit_code = 1
+
+            print_error(
+              file,
+              rule,
+              event[:line_number],
+              event[:msg]
+            )
+          end
+
+          rule.check!
         end
 
         puts "Done." if verbose
 
         exit_code
+      end
+
+      def print_error(file, rule, line_number, msg)
+        $stderr.puts(
+          format(
+            "%{file}:%{line_number}: [%{rule_class}] %{message}",
+            file:,
+            line_number:,
+            rule_class: rule.identifier,
+            message: msg
+          )
+        )
       end
 
       def parse_config!(path)

@@ -38,6 +38,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "dry-cli", "~> 1.4"
   spec.add_dependency "dry-configurable", "~> 1.4"
+  spec.add_dependency "dry-events", "~> 1.1"
   spec.add_dependency "inkmark", "~> 0.1.3"
   spec.add_dependency "yaml", "~> 0.4"
 

@@ -12,7 +12,8 @@ Install the gem and add to the application's Gemfile by executing:
 bundle add marcdouane
 ```
 
-If bundler is not being used to manage dependencies, install the gem by executing:
+If bundler is not being used to manage dependencies, install the gem
+by executing:
 
 ```bash
 gem install marcdouane
@@ -51,8 +52,9 @@ I'm doing it
 ## Contributing
 
 A rule must inherit `Marcdouane::Rule`. It must answer to `check!` and
-raise a `Marcdouane::Error` with an `ERROR_MESSAGE` and a line
-number. Example:
+call `error!` to signal a faulty line. The message defaults to the
+class's `ERROR_MESSAGE` but can be overriden through the `message`
+parameter. The line-number is 0-indexed. Example:
 
 ```ruby
 class CheckAnglois < Marcdouane::Rule
@@ -63,7 +65,7 @@ class CheckAnglois < Marcdouane::Rule
       .read(file)
       .lines
       .each_with_index(line, index) do
-      raise Marcdouane:Error.new(ERROR_MESSAGE, index + 1) if line =~ /anglois/
+      raise Marcdouane:Error.new(ERROR_MESSAGE, index) if line =~ /anglois/
     end
   end
 end

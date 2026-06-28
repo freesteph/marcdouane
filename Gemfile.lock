@@ -4,6 +4,7 @@ PATH
     marcdouane (0.1.0)
       dry-cli (~> 1.4)
       dry-configurable (~> 1.4)
+      dry-events (~> 1.1)
       inkmark (~> 0.1.3)
       yaml (~> 0.4)
 
@@ -61,6 +62,9 @@ GEM
       concurrent-ruby (~> 1.0)
       logger
       zeitwerk (~> 2.6)
+    dry-events (1.1.0)
+      concurrent-ruby (~> 1.0)
+      dry-core (~> 1.1)
     erb (6.0.4)
     ffi (1.17.4)
     ffi (1.17.4-arm64-darwin)
@@ -175,6 +179,7 @@ CHECKSUMS
   dry-cli (1.4.1) sha256=b8015bb76c708aa8705a36faf694973e75eeeffca39b89c8e172dc6f66a7d874
   dry-configurable (1.4.0) sha256=e35d1b5f3c081753ef361f564919db79000f32cfa6f20ee3a3ba5921b41b73ce
   dry-core (1.2.0) sha256=0cc5a7da88df397f153947eeeae42e876e999c1e30900f3c536fb173854e96a1
+  dry-events (1.1.0) sha256=53f13960daf02cc06c2ea6cdf3209e29b0dd400f8977a8020834a68c044a78de
   erb (6.0.4) sha256=38e3803694be357fe2bfe312487c74beaf9fb4e5beb3e22498952fe1645b95d9
   ffi (1.17.4) sha256=bcd1642e06f0d16fc9e09ac6d49c3a7298b9789bcb58127302f934e437d60acf
   ffi (1.17.4-arm64-darwin) sha256=19071aaf1419251b0a46852abf960e77330a3b334d13a4ab51d58b31a937001b
