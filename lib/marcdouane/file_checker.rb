@@ -6,8 +6,13 @@ require "yaml"
 require_relative "rules"
 
 module Marcdouane
+  # FileChecker grabs all rules available and then calls them on a
+  # file, transmitting any options fed to the CLI.  and then calls all
+  # the rules
   class FileChecker
     class << self
+      attr_reader :exit_code
+
       def call(file, options)
         verbose = options.fetch(:verbose)
 
@@ -15,34 +20,30 @@ module Marcdouane
 
         puts "Checking `#{file}'..." if verbose
 
-        exit_code = 0
+        @exit_code = 0
 
-        rules.each do |klass|
-          rule = klass.new(file, options)
+        rules
+          .map { |klass| run_rule(file, klass, options) }
+          .tap  { |_codes| puts "Done." if verbose }
+          .then { @exit_code }
+      end
 
-          rule.subscribe("rule.error") do |event|
-            exit_code = 1
+      def run_rule(file, klass, options)
+        rule = klass.new(file, options)
 
-            print_error(
-              file,
-              rule,
-              event[:line_number],
-              event[:msg]
-            )
-          end
+        rule.subscribe("rule.error") do |event|
+          print_error(file, rule, event[:line_number], event[:msg])
 
-          rule.check!
+          @exit_code = 1
         end
 
-        puts "Done." if verbose
-
-        exit_code
+        rule.check!
       end
 
       def print_error(file, rule, line_number, msg)
-        $stderr.puts(
+        warn(
           format(
-            "%{file}:%{line_number}: [%{rule_class}] %{message}",
+            "%<file>s:%<line_number>s: [%<rule_class>s] %<message>s",
             file:,
             line_number:,
             rule_class: rule.identifier,

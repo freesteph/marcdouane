@@ -16,6 +16,7 @@ Gem::Specification.new do |spec|
   # spec.metadata["allowed_push_host"] = "TODO: Set to your gem server 'https://example.com'"
   spec.metadata["homepage_uri"] = spec.homepage
   spec.metadata["source_code_uri"] = "https://github.com/freesteph/marcdouane"
+  spec.metadata["rubygems_mfa_required"] = "true"
 
   # Uncomment the line below to require MFA for gem pushes.
   # This helps protect your gem from supply chain attacks by ensuring

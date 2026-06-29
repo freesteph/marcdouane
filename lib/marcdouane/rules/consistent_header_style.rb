@@ -2,30 +2,27 @@
 
 module Marcdouane
   module Rules
+    # Ensure that headers style is consistent: either the '#'-prefix
+    # style or the '=' underscore style, but not both.
     class ConsistentHeaderStyle < Rule
       ERROR_MESSAGE = "Use a unique, consistent header style"
 
       def check!
-        reference_style, style = nil
+        reference_style = nil
 
+        # we need to dup otherwise seeking directly into the
+        # @markdown.source confuses Inkmark and subsequent headers
+        # will have nil byte ranges
         source = @markdown.source.lines.dup
 
         @markdown.on(:heading) do |header|
           line_number = line_number_from_byte_range(header.byte_range)
 
-          raw_line = source[line_number]
-
-          if raw_line.start_with?("#")
-            style = :normal
-          else
-            style = :underline
-          end
+          style = source[line_number].start_with?("#") ? :normal : :underline
 
           reference_style ||= style
 
-          if reference_style != style
-            error!(line_number)
-          end
+          error!(line_number) if reference_style != style
         end
 
         @markdown.walk

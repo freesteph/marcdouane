@@ -5,6 +5,7 @@ require "bundler/setup"
 require "dry/cli"
 require "marcdouane"
 
+# rubocop:disable Style/Documentation
 module Marcdouane
   module CLI
     module Commands
@@ -37,31 +38,33 @@ module Marcdouane
                  desc: "Files to check against"
 
         def call(files: [], **options)
+          check_files!(files)
+
+          files
+            .map  { |file| Marcdouane::FileChecker.call(file, options) }
+            .then { |codes| exit(codes.max) }
+        end
+
+        def check_files!(files)
           if files.empty?
             puts "No files provided."
-            return
+            exit 0
           end
-
-          exit_code = 0
 
           files.each do |file|
-            if !File.exist?(file)
-              $stderr.puts "`#{file}' is missing, or not a valid file."
-              exit_code = 1
-            else
-              exit_code = Marcdouane::FileChecker.call(file, options)
+            unless File.exist?(file)
+              warn "`#{file}' is missing, or not a valid file."
+              exit 1
             end
           end
-
-          exit(exit_code)
         end
       end
-
 
       register "version", Version, aliases: ["v", "-v", "--version"]
       register "check", Check
     end
   end
 end
+# rubocop:enable Style/Documentation
 
 Dry::CLI.new(Marcdouane::CLI::Commands).call
