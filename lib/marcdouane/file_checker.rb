@@ -16,7 +16,7 @@ module Marcdouane
       def call(file, options)
         verbose = options.fetch(:verbose)
 
-        parse_config!(options[:config])
+        parse_config!(options[:config]) unless options[:config].nil?
 
         puts "Checking `#{file}'..." if verbose
 
@@ -53,8 +53,6 @@ module Marcdouane
       end
 
       def parse_config!(path)
-        return if path.nil?
-
         config = YAML.load_file(path)
 
         config.each do |klass, hash|
