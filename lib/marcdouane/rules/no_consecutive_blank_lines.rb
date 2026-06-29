@@ -11,7 +11,7 @@ module Marcdouane
           .source
           .lines
           .each_cons(2)
-          .each_with_index do |pair, index|
+          .with_index do |pair, index|
           if pair.map(&:strip).all?(&:empty?)
             error!(index + 2)
           end

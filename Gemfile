@@ -5,8 +5,8 @@ source "https://rubygems.org"
 # Specify your gem's dependencies in marcdouane.gemspec
 gemspec
 
-gem "debug"
 gem "aruba"
+gem "debug"
 
 gem "irb"
 gem "rake", "~> 13.0"

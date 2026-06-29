@@ -16,6 +16,7 @@ Gem::Specification.new do |spec|
   # spec.metadata["allowed_push_host"] = "TODO: Set to your gem server 'https://example.com'"
   spec.metadata["homepage_uri"] = spec.homepage
   spec.metadata["source_code_uri"] = "https://github.com/freesteph/marcdouane"
+  spec.metadata["rubygems_mfa_required"] = "true"
 
   # Uncomment the line below to require MFA for gem pushes.
   # This helps protect your gem from supply chain attacks by ensuring
@@ -38,6 +39,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "dry-cli", "~> 1.4"
   spec.add_dependency "dry-configurable", "~> 1.4"
+  spec.add_dependency "dry-events", "~> 1.1"
   spec.add_dependency "inkmark", "~> 0.1.3"
   spec.add_dependency "yaml", "~> 0.4"
 
