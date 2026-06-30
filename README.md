@@ -51,8 +51,12 @@ I'm doing it
 
 ## Contributing
 
-A rule must inherit `Marcdouane::Rule`. It must answer to `check!` and
-call `error!` to signal a faulty line. The message defaults to the
+You can generate a new rule with `bundle exec thor generate_rule
+YourRuleName` which will write the class file, require it and add a
+new test-case for it.
+
+A rule must inherit `Marcdouane::Rule`. It must answer to `check!`
+and call `error!` to signal a faulty line. The message defaults to the
 class's `ERROR_MESSAGE` but can be overriden through the `message`
 parameter. The line-number is 0-indexed. Example:
 

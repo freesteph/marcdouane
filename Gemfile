@@ -16,3 +16,5 @@ gem "rspec", "~> 3.0"
 gem "rubocop", "~> 1.21"
 
 gem "cucumber", "~> 11.1"
+
+gem "thor"
