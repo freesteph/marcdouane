@@ -35,7 +35,7 @@ class GenerateRule < Thor::Group
 
   def require_new_rule
     append_to_file "lib/marcdouane/rules.rb" do
-      "require_relative \"rules/#{underscore(name)}\""
+      "\nrequire_relative \"rules/#{underscore(name)}\""
     end
   end
 
