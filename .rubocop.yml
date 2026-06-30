@@ -13,3 +13,7 @@ Style/GuardClause:
 
 IfUnlessModifier:
   Enabled: false
+
+Metrics/MethodLength:
+  AllowedMethods:
+    - check! # the rule checks are bound to be lengthy

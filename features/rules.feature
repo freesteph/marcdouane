@@ -118,3 +118,16 @@ Feature: Built-in Markdown Rules
         """
         foo.md:3: [ConsistentHeaderStyle] Use a unique, consistent header style
         """
+
+  Rule: Only a single top-level header is present
+    Example: When there are more than one top-level headers
+      Given a file named "foo.md" with:
+      """
+      # Top header one
+      # Top header two
+      """
+      When I run `marcdouane check "foo.md"`
+      Then it should fail with:
+      """
+      foo.md:2: [SingleTopLevelHeader] A top-level header is already present
+      """

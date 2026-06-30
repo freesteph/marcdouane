@@ -58,6 +58,10 @@ class GenerateRule < Thor::Group
     end
   end
 
+  def letsgo
+    puts "Done! Use `bundle exec cucumber` to get going."
+  end
+
   private
 
   def underscore(str)
