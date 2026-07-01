@@ -33,12 +33,6 @@ class GenerateRule < Thor::Group
     end
   end
 
-  def require_new_rule
-    append_to_file "lib/marcdouane/rules.rb" do
-      "\nrequire_relative \"rules/#{underscore(name)}\""
-    end
-  end
-
   def add_test_case
     append_to_file "features/rules.feature" do
       <<-CUKE
