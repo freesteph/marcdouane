@@ -43,6 +43,7 @@ class GenerateRule < Thor::Group
     append_to_file "features/rules.feature" do
       <<-CUKE
 
+  @wip
   Rule: #{@msg}
     Example: FIXME
       Given a file named "foo.md" with:
@@ -59,7 +60,7 @@ class GenerateRule < Thor::Group
   end
 
   def letsgo
-    puts "Done! Use `bundle exec cucumber` to get going."
+    puts "Done! Use `bundle exec cucumber -t @wip` to get going."
   end
 
   private
