@@ -10,15 +10,10 @@ module Marcdouane
       def check!
         reference_style = nil
 
-        # we need to dup otherwise seeking directly into the
-        # @markdown.source confuses Inkmark and subsequent headers
-        # will have nil byte ranges
-        source = @markdown.source.lines.dup
-
         @markdown.on(:heading) do |header|
           line_number = line_number_from_byte_range(header.byte_range)
 
-          style = source[line_number].start_with?("#") ? :normal : :underline
+          style = @source.lines[line_number].start_with?("#") ? :normal : :underline
 
           reference_style ||= style
 

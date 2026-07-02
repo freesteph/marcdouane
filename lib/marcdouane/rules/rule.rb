@@ -16,7 +16,7 @@ module Marcdouane
       extend Dry::Configurable
       include Dry::Events::Publisher[:marcdouane] # I don't know what that identifier is for
 
-      attr_reader :file, :options, :markdown
+      attr_reader :file, :options, :markdown, :source
 
       def initialize(file, options)
         @file = file
@@ -27,6 +27,8 @@ module Marcdouane
             frontmatter: true
           }
         )
+
+        @source = @markdown.source.dup
 
         register_event("rule.error")
       end
