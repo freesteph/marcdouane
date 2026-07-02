@@ -34,3 +34,28 @@ Feature: Using the command-line executable
       foo.md:2: [EnsureHeadersCascade] Header levels should increment one at a time
       foo.md:3: [EnsureHeadersCascade] Header levels should increment one at a time
       """
+
+  Scenario: Custom rules can simply be required
+    Given a file named "custom.rb" with:
+      """
+      module Marcdouane
+        module Rules
+          class MyCustomRule < Rule
+            ERROR_MESSAGE = "custom error"
+
+            def check!
+              error!(0)
+            end
+          end
+        end
+      end
+      """
+    Given a file named "foo.md" with:
+      """
+      Some markdown content
+      """
+    When I run `marcdouane check "foo.md" --custom-rules "custom.rb"`
+    Then it should fail with:
+      """
+      foo.md:1: [MyCustomRule] custom error
+      """

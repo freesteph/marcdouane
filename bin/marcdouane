@@ -37,8 +37,17 @@ module Marcdouane
                  required: true,
                  desc: "Files to check against"
 
+        option :"custom-rules",
+               type: :string,
+               required: false,
+               desc: "Path to a file containing custom rules"
+
         def call(files: [], **options)
           check_files!(files)
+
+          if options[:"custom-rules"]
+            load options[:"custom-rules"]
+          end
 
           files
             .map  { |file| Marcdouane::FileChecker.call(file, options) }
