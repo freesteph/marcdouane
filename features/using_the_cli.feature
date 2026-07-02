@@ -5,7 +5,7 @@ Feature: Using the command-line executable
 
   Scenario: The CLI can tell its version
     When I run `marcdouane version`
-    Then the output should contain "0.1.0"
+    Then the output should contain "0.1.1"
 
   Scenario: All the errors are displayed
     Given a file named "foo.md" with:
