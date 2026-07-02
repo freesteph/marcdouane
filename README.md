@@ -45,6 +45,34 @@ LineLength:
   maximum_line_length: 90 # which is utter madness
 ```
 
+## Editor integration
+
+Marcdouane uses a very common output format:
+
+```
+filename:lineno: [ErrorName] error message
+```
+
+### Emacs with Flycheck
+
+```elisp
+(flycheck-define-checker marcdouane
+  "A Markdown linter using marcdouane
+
+See URL `https://github.com/freesteph/marcdouane/'."
+  :command ("marcdouane" "check" source)
+  :error-patterns
+  ((error line-start (file-name) ":" line ": " (message) line-end))
+  :error-explainer (lambda (err)
+                     (let ((str (flycheck-error-message err)))
+                       (when (string-match "\\[\\([^]]+\\)\\]" str)
+                         (let* ((class (match-string 1 str)))
+                           (shell-command-to-string (format "ri --format=markdown --no-pager Marcdouane::Rules::%s" class))))))
+  :modes markdown-mode)
+
+(add-to-list 'flycheck-checkers 'marcdouane)
+```
+
 ## Development
 
 I'm doing it
