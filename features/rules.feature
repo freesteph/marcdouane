@@ -28,21 +28,26 @@ Feature: Built-in Markdown Rules
       Given a file named "foo.md" with:
         """
         # This is a file starting with a top-level header
+
         ## This is an H2
+
         #### But this is an H4
         """
       When I run `marcdouane check "foo.md"`
       Then it should fail with:
         """
-        foo.md:3: [EnsureHeadersCascade] Header levels should increment one at a time
+        foo.md:5: [EnsureHeadersCascade] Header levels should increment one at a time
         """
 
     Example: A document respect the header hiearchy
       Given a file named "foo.md" with:
         """
         # This is a file starting with a top-level header
+
         ## This is an H2
+
         ### This is an H3
+
         ## Another H2
         """
       When I run `marcdouane check "foo.md"`
@@ -53,12 +58,13 @@ Feature: Built-in Markdown Rules
       Given a file named "foo.md" with:
         """
         # Example file
+
         This line is really long and carries over the limit for a comfortable read and annoys everybody
         """
       When I run `marcdouane check "foo.md"`
       Then it should fail with:
         """
-        foo.md:2: [LineLength] Line-length is over 80 characters
+        foo.md:3: [LineLength] Line-length is over 80 characters
         """
 
     Example: A link anchor is not accounted for
@@ -77,6 +83,7 @@ Feature: Built-in Markdown Rules
       Given a file named "foo.md" with:
         """
         # Example file
+
         This line is really long and carries over the limit for a comfortable read and annoys everybody
         """
       And a file named ".marcdouane.yml" with:
@@ -130,4 +137,24 @@ Feature: Built-in Markdown Rules
       Then it should fail with:
       """
       foo.md:2: [SingleTopLevelHeader] A top-level header is already present
+      """
+
+  Rule: Headers should be surrounded by blank lines
+    Example: When there are headers directly followed by text
+      Given a file named "foo.md" with:
+      """
+      # First header
+      ## Another header
+
+      ## This is fine
+
+      ### This is fine
+      ## This is not fine
+      """
+      When I run `marcdouane check "foo.md"`
+      Then it should fail with:
+      """
+      foo.md:1: [HeadersSurroundedByBlankLines] Headers should be surrounded by blank lines
+      foo.md:2: [HeadersSurroundedByBlankLines] Headers should be surrounded by blank lines
+      foo.md:6: [HeadersSurroundedByBlankLines] Headers should be surrounded by blank lines
       """
